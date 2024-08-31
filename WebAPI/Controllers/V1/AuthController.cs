@@ -85,9 +85,21 @@ namespace WebAPI.Controllers.V1
 
         [MapToApiVersion("1.0")]
         [HttpGet("[action]")]
-        public async Task<IActionResult> ConfirmEmail(string userId, string token )
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             var result = await _authService.ConfirmEmail(userId, token);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpPatch("[action]")]
+        [Authorize]
+        public async Task<IActionResult> UploadPhoto(UploadPhotoDTO model)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = await _authService.UploadPhoto(userId, model);
             if (result.Success)
                 return Ok(result);
             return BadRequest(result);

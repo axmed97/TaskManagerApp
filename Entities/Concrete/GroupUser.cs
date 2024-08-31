@@ -2,8 +2,9 @@
 
 namespace Entities.Concrete
 {
-    public class GroupUser
+    public class GroupUser : BaseEntity
     {
+        public bool IsAccept { get; set; }
         public Guid GroupId { get; set; }
         public Group Group { get; set; }
         public string UserId { get; set; }

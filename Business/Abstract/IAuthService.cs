@@ -14,5 +14,6 @@ namespace Business.Abstract
         IDataResult<List<UserDTO>> GetAll();
         Task<IResult> RemoveUserAsync(string userId);
         Task<IResult> ConfirmEmail(string userId, string token);
+        Task<IResult> UploadPhoto(string userId, UploadPhotoDTO model);
     }
 }

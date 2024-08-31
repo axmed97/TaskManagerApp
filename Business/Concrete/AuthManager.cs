@@ -240,6 +240,27 @@ namespace Business.Concrete
                 return new ErrorDataResult<string>(_localizationService.GetLocalizedString("UserNotFound", langCode), HttpStatusCode.NotFound);
         }
 
+        public async Task<IResult> UploadPhoto(string userId, UploadPhotoDTO model)
+        {
+            var langCode = Thread.CurrentThread.CurrentUICulture.Name;
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return new ErrorResult(_localizationService.GetLocalizedString("UserNotFound", langCode),
+                    HttpStatusCode.NotFound);
+
+            user.PhotoUrl = model.PhotoUrl;
+            var result = await _userManager.UpdateAsync(user);
+            if(result.Succeeded)
+                return new SuccessResult(HttpStatusCode.OK);
+            else
+            {
+                string responseMessage = string.Empty;
+                foreach (var error in result.Errors)
+                    responseMessage += $"{error.Description}. ";
+                return new ErrorResult(message: responseMessage, HttpStatusCode.BadRequest);
+            }
+        }
+
         private string GenerateOtp()
         {
             byte[] data = new byte[4];

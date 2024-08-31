@@ -23,6 +23,15 @@ namespace Business.DependencyResolver.Autofac
             builder.RegisterType<TestManager>().As<ITestService>().SingleInstance();
             builder.RegisterType<EFTestDAL>().As<ITestDAL>().SingleInstance();
 
+            builder.RegisterType<GroupManager>().As<IGroupService>().SingleInstance();
+            builder.RegisterType<EFGroupDAL>().As<IGroupDAL>().SingleInstance();
+
+            builder.RegisterType<NotificationManager>().As<INotificationService>().SingleInstance();
+            builder.RegisterType<EFNotificationDAL>().As<INotificationDAL>().SingleInstance();
+
+            builder.RegisterType<GroupUserManager>().As<IGroupUserService>().SingleInstance();
+            builder.RegisterType<EFGroupUserDAL>().As<IGroupUserDAL>().SingleInstance();
+
             builder.RegisterType<StorageService>().As<IStorageService>().SingleInstance();
             builder.RegisterType<LocalStorage>().As<IStorage>().SingleInstance();
 

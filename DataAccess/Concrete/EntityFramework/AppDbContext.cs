@@ -20,6 +20,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<TaskEntity> TaskEntities { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupUser> GroupUsers { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -42,8 +43,8 @@ namespace DataAccess.Concrete.EntityFramework
                 .HasForeignKey(x => x.DeletedUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<GroupUser>()
-                .HasKey(x => new { x.UserId, x.GroupId });
+            //builder.Entity<GroupUser>()
+            //    .HasKey(x => new { x.UserId, x.GroupId });
 
             builder.Entity<GroupUser>()
                 .HasOne(x => x.Group)
@@ -55,6 +56,24 @@ namespace DataAccess.Concrete.EntityFramework
                 .HasOne(x => x.User)
                 .WithMany(x => x.GroupUsers)
                 .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Group>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Groups)
+                .HasForeignKey(x => x.CreatedUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Notification>()
+                .HasOne(x => x.Sender)
+                .WithMany()
+                .HasForeignKey(x => x.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Notification>()
+                .HasOne(x => x.To)
+                .WithMany(x => x.Notifications)
+                .HasForeignKey(x => x.ToId)
                 .OnDelete(DeleteBehavior.Restrict);
 
 

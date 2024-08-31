@@ -16,18 +16,6 @@ namespace Business.DependencyResolver.IoC
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.Configure<IdentityOptions>(options =>
-            //{
-            //    options.Tokens.EmailConfirmationTokenProvider = "Default";
-            //    options.Tokens.ProviderMap.Add("Default",
-            //        new TokenProviderDescriptor(typeof(IUserTwoFactorTokenProvider<AppUser>)));
-            //});
-
-            //services.Configure<DataProtectionTokenProviderOptions>(options =>
-            //{
-            //    options.TokenLifespan = TimeSpan.FromDays(1); // Set the token lifespan to 1 day
-            //});
-
             services.AddHttpClient();
 
             ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();
