@@ -1,18 +1,22 @@
 version: "3.8"
-name: task-manager
 
 services:
   api:
     container_name: task-manager
     image: task-manager:latest
+    build:
+      context: .
+      dockerfile: Dockerfile # If you have a Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=mssql;Database=TaskManagerAppDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;
     ports:
-      - 8080:8080
+      - 8080:80
     depends_on:
-      postgres:
+      mssql:
         condition: service_healthy
+
   mssql:
     container_name: mssql
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -20,7 +24,7 @@ services:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=YourStrong!Passw0rd
     ports:
-      - 1434:1433
+      - 1433:1433
     volumes:
       - mssql-data:/var/opt/mssql
     healthcheck:
